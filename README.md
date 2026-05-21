@@ -1,5 +1,9 @@
 # MeNem CRM — Full-Stack Customer Management System
 
+> 🌐 **Live Demo:** https://me-nem-crm-frontend.vercel.app/
+> 📦 **Backend API:** https://me-nem-crm.vercel.app/api
+> 💻 **GitHub:** https://github.com/digeesh038/MeNem-CRM
+
 A complete **Customer Relationship Management (CRM)** application built with the **MERN stack** (MongoDB, Express.js, React, Node.js). It allows an admin to manage their customer database with full CRUD operations, real-time search with autocomplete, smart filtering, sorting, pagination, PDF export, URL-based routing, and a beautiful fully responsive UI.
 
 This README is a **complete implementation guide**. Read it top to bottom and you'll understand exactly how every part of the app works, how to run it locally, how to deploy it, and how to extend it with your own features.
