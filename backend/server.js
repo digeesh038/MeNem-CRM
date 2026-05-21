@@ -8,14 +8,12 @@ import errorHandler from './middleware/errorHandler.js';
 // Load variables from the .env file (MONGO_URI, PORT, etc.)
 dotenv.config();
 
-// Connect to MongoDB before handling any requests
-connectDB();
-
 const app = express();
 
-// Allow the frontend to call this API (localhost during dev, Vercel domain in prod)
+// Allow the frontend to call this API. '*' is fine while developing.
+// Once deployed, you can lock this down to your specific frontend URL.
 app.use(cors({
-  origin: '*', // open for now; lock down to your frontend URL once deployed
+  origin: '*',
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization'],
 }));
@@ -23,6 +21,17 @@ app.use(cors({
 // Parse incoming JSON bodies (limit raised to 10mb in case of large payloads)
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true }));
+
+// Connect to MongoDB on each request (cached after the first one).
+// Done as middleware instead of at startup so serverless functions don't crash on cold starts.
+app.use(async (_req, _res, next) => {
+  try {
+    await connectDB();
+    next();
+  } catch (err) {
+    next(err);
+  }
+});
 
 // Simple health check — frontend uses this to verify the API is up
 app.get('/api/health', (_req, res) => {
