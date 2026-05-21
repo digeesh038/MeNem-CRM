@@ -13,9 +13,9 @@ connectDB();
 
 const app = express();
 
-// Allow the frontend (Vite dev server on 5173, CRA on 3000) to call this API
+// Allow the frontend to call this API (localhost during dev, Vercel domain in prod)
 app.use(cors({
-  origin: ['http://localhost:5173', 'http://localhost:3000'],
+  origin: '*', // open for now; lock down to your frontend URL once deployed
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization'],
 }));
@@ -40,9 +40,15 @@ app.use((_req, res) => {
 // Error handler must be registered LAST so it catches everything
 app.use(errorHandler);
 
-// Start the server
+// Only start a long-running listener when NOT on Vercel.
+// On Vercel, the platform imports `app` as a serverless function instead.
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`\n Server running on http://localhost:${PORT}`);
-  console.log(` Environment: ${process.env.NODE_ENV || 'development'}\n`);
-});
+if (!process.env.VERCEL) {
+  app.listen(PORT, () => {
+    console.log(`\n Server running on http://localhost:${PORT}`);
+    console.log(` Environment: ${process.env.NODE_ENV || 'development'}\n`);
+  });
+}
+
+// Export for Vercel serverless deployment
+export default app;
