@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:www.menem.in)",
+      "Bash(npm install *)"
+    ]
+  }
+}
