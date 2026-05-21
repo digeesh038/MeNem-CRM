@@ -819,6 +819,3 @@ Built by **Digeesh S** as a MERN Stack internship assignment for **MeNem Inc.**
 
 ---
 
-## License
-
-This project is for educational and assignment purposes.
